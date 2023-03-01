@@ -1,15 +1,17 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
-
     {% for listing in listings %}
-        <div>
-            <h2>{{ listing.title }}</h2>
-            <p>{{ listing.content }}</p>
-            <p>{{ listing.date }}</p>
-            <p>By {{ listing.author }}</p>
-        </div>
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ listing.author }}</a>
+              <small class="text-muted">{{ listing.date_posted|date:"F d, Y" }}</small>
+            </div>
+            <h2><a class="article-title" href="#">{{ listing.title }}</a></h2>
+            <p class="article-content">{{ listing.content }}</p>
+          </div>
+        </article>
     {% endfor %}
 
 {% endblock %}
