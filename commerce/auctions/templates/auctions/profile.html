@@ -1,0 +1,32 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<div class="content-section">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}" />
+        <div class="media-body">
+            <h2 class="account-heading">{{ user.username }}</h2>
+            <p class="text-secondary">{{ user.email }}</p>
+        </div>
+    </div>
+</div>
+
+{% for listing in listings %}
+    {% if listing.author == user.username %}
+    <article class="media content-section">
+            <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="#">{{ listing.author }}</a>
+                <small class="text-muted">{{ listing.date|date:"F d, Y" }}</small>
+                <small class="ml-3">Price: <b>99$</b></small>
+            </div>
+            <h2><a class="article-title" href="#">{{ listing.title }}</a></h2>
+            <p class="article-content">{{ listing.content }}</p>
+            <img width=320 height=320 src="{{ listing.image.url }}" />
+            </div>
+    </article>
+    {% endif %}
+{% endfor %}
+
+{% endblock body %}
