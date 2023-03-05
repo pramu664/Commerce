@@ -11,8 +11,18 @@
         <div class="form-group">
             <button class="btn btn-outline-info" type="submit">Create</button>
         </div>
+        {% if form.errors %}
+        <ul>
+            {% for field_errors in form.errors.values %}
+            {% for error in field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            {% endfor %}
+        </ul>
+        {% endif %}
     </form>
 </div>
+
 
 
 {% endblock body %}

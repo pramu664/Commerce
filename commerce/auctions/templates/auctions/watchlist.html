@@ -12,21 +12,25 @@
     </div>
 </div>
 
-{% for listing in listings %}
-    {% if listing.author == user.username %}
+{% for item in watchlist %}
     <article class="media content-section">
             <div class="media-body">
             <div class="article-metadata">
-                <a class="mr-2" href="#">{{ listing.author }}</a>
-                <small class="text-muted">{{ listing.date|date:"F d, Y" }}</small>
+                <a class="mr-2" href="#">{{ item.listing.author }}</a>
+                <small class="text-muted">{{ item.listing.date|date:"F d, Y" }}</small>
                 <small class="ml-3">Price: <b>99$</b></small>
             </div>
-            <h2><a class="article-title" href="#">{{ listing.title }}</a></h2>
+            <h2><a class="article-title" href="{% url 'listing_detail' item.listing.id %}">{{ item.listing.title }}</a></h2>
             <p class="article-content">{{ listing.content }}</p>
-            <img width=320 height=320 src="{{ listing.image.url }}" />
+            <img width=320 height=320 src="{{ item.listing.image.url }}" />
+            <br />
+            <form action="remove_from_watchlist" method="POST">
+                {% csrf_token %}
+                <button class="btn btn-info small mt-3">Remove from watchlist</button>
+                <input type="hidden" name="id" value="{{ item.id }}" />
+            </form>
             </div>
     </article>
-    {% endif %}
 {% endfor %}
 
 {% endblock body %}

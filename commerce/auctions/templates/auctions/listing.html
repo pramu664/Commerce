@@ -1,0 +1,23 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<article class="media content-section">
+    <div class="media-body">
+    <div class="article-metadata">
+        <a class="mr-2" href="#">{{ listing.author }}</a>
+        <small class="text-muted">{{ listing.date|date:"F d, Y" }}</small>
+        <small class="ml-3">Price: <b>${{ listing.price }}</b></small>
+    </div>
+    <h2><a class="article-title" href="#">{{ listing.title }}</a></h2>
+    <p class="article-content">{{ listing.content }}</p>
+    <img width=320 height=320 src="{{ listing.image.url }}" />
+    <br />
+    <form action="add_to_watchlist" method="POST">
+        {% csrf_token %}
+        <button class="btn btn-info small mt-3">Add to watchlist</button>
+        <input type="hidden" name="id" value="{{ listing.id }}" />
+    </form>
+    </div>
+ 
+</article>
+{% endblock body %}
