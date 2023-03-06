@@ -12,7 +12,7 @@ class ListingForm(ModelForm):
 
     class Meta:
         model = Listing
-        fields = ["title", "content", "date", "author", "image", "price" ]
+        fields = ["title", "content", "date", "author", "image", "price", "listing_categories" ]
     
 
 class BiddingForm(forms.Form):

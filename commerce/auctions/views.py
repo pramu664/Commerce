@@ -11,9 +11,8 @@ from django.contrib.auth.decorators import login_required
 from .models import User, Listing, Watchlist, Bid
 from .forms import ListingForm, BiddingForm
 
-@login_required
 def index(request):
-    listings = {"listings": Listing.objects.all()}
+    listings = {"listings": list(reversed(Listing.objects.filter(is_closed=False)))}
     return render(request, "auctions/index.html", listings)
 
 
@@ -70,6 +69,15 @@ def bid_options(request):
         messages.success(request, f"{listing} now opened")
         return HttpResponseRedirect(reverse("listing_detail", args=(listing_id,)))
 
+def announcements(request):
+    listings_win_by_user = []
+    bids = Bid.objects.filter(bidder=request.user)
+    closed_listings = Listing.objects.filter(is_closed=True)
+    for bid in bids:
+        if bid.bid_on in closed_listings:
+            if bid.bidder == request.user:
+                listings_win_by_user.append(bid.bid_on)
+    return render(request, "auctions/announcements.html", {"listings": listings_win_by_user})
 
 @login_required
 def watchlist_view(request):
