@@ -7,6 +7,7 @@
         <a class="mr-2" href="#">{{ listing.author }}</a>
         <small class="text-muted">{{ listing.date|date:"F d, Y" }}</small>
         <small class="ml-3">Price: <b>${{ listing.price }}</b></small>
+
     </div>
     <h2><a class="article-title" href="#">{{ listing.title }}</a></h2>
     <p class="article-content">{{ listing.content }}</p>
@@ -17,7 +18,37 @@
         <button class="btn btn-info small mt-3">Add to watchlist</button>
         <input type="hidden" name="id" value="{{ listing.id }}" />
     </form>
+
+    {% if not listing.author.id == user.id %}
+        <form action="bid" method="POST">
+            {% csrf_token %}
+            <hr />
+            <h3>Bid</h3>
+            <div class="form-group">
+                <input class="form-control" type="number" name="bid" placeholder="bid">
+                <input type="hidden" name="id" value="{{ listing.id }}" />
+                <button class="btn btn-info small mt-3">Bid</button>
+            </div>
+        </form>
+    {% endif %}
+
+    {% if listing.author.id == user.id %}
+        <form action="bid_options" method="POST">
+            {% csrf_token %}
+            <hr />
+            <div class="form-group">
+            <p>Bidding options</p>
+                <select id="most-like" name="option" class="form-control" required>
+                    <option  selected value>Select an option</option>
+                    <option value="False">Open</option>
+                    <option value="True">Close</option>
+                </select>
+                <input type="hidden" name="id" value="{{ listing.id }}" />
+                <button class="btn btn-info small mt-3">Submit</button>
+            </div>
+        </form>
     </div>
- 
+    {% endif %}
+
 </article>
 {% endblock body %}

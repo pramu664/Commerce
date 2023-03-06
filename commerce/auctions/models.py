@@ -15,11 +15,19 @@ class Listing (models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(default="default.jpg", upload_to="listing_pics")
     price = models.IntegerField(default=1, validators=[MaxValueValidator(1000), MinValueValidator(0)])
+    is_closed = models.BooleanField(default=False)
 
 
     def __str__ (self):
-        return f"{self.title} by {self.author}"
+        return f"{self.title}"
 
+class Bid(models.Model):
+    bidder = models.ForeignKey(User, on_delete=models.CASCADE)
+    bid_on = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    bid_amount = models.IntegerField(default=1, validators=[MaxValueValidator(1000), MinValueValidator(0)])
+
+    def __str__(self):
+        return f"{self.bidder} bid ${self.bid_amount} on {self.bid_on}"
 
 class Profile(models.Model):
     user =  models.OneToOneField(User, on_delete=models.CASCADE)
@@ -31,7 +39,6 @@ class Profile(models.Model):
 class Watchlist(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
-
 
     def __str__(self):
         return f"{self.listing}"

@@ -2,6 +2,7 @@
 
 {% block body %}
     {% for listing in listings %}
+      {% if not listing.is_closed %}
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
@@ -14,6 +15,20 @@
 			<img width=320 height=320 src="{{ listing.image.url }}" />
           </div>
         </article>
+        {% else %}
+         <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ listing.author }}</a>
+              <small class="text-muted">{{ listing.date|date:"F d, Y" }}</small>
+              <small class="ml-3"><b>Closed</b></small>
+            </div>
+            <h2><a class="article-title" href="{% url 'listing_detail' pk=listing.pk %}">{{ listing.title }}</a></h2>
+            <p class="article-content">{{ listing.content }}</p>
+			<img width=320 height=320 src="{{ listing.image.url }}" />
+          </div>
+        </article>       
+        {% endif %}
 
     {% endfor %}
 
