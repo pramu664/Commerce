@@ -17,6 +17,14 @@ class Listing (models.Model):
     price = models.IntegerField(default=1, validators=[MaxValueValidator(1000), MinValueValidator(0)])
     is_closed = models.BooleanField(default=False)
 
+    # Category Field
+    CLOTHING = "CL"
+    SHOES = "SH"
+    ACCESSORIES = "AC"
+    OTHER = "OT"
+    LISTING_CATEGORIES = [(CLOTHING, 'Clothing'), (SHOES, 'Shoes'), (ACCESSORIES, 'Accessories'), (OTHER, 'Other')]
+    listing_categories = models.CharField(max_length=2, choices=LISTING_CATEGORIES, default=OTHER)
+
 
     def __str__ (self):
         return f"{self.title}"
