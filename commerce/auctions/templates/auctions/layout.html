@@ -28,6 +28,7 @@
                     <div class="navbar-nav">
                       {% if user.is_authenticated %}
                         <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                        <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
                       {% else %}
                         <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
                       {% endif %}
@@ -51,13 +52,11 @@
         </div>
         <div class="col-md-4">
           <div class="content-section">
-            <h3>Our Sidebar</h3>
-            <p class='text-muted'>You can put any information here you'd like.
+            <!-- <h3>Our Sidebar</h3> -->
+            <!-- <p class='text-muted'>You can put any information here you'd like. -->
               <ul class="list-group">
-                <li class="list-group-item list-group-item-light">Latest Listings</li>
+                <li class="list-group-item list-group-item-light"><a href="{% url 'index' %}">Latest Listings</a></li>
                 <li class="list-group-item list-group-item-light"><a href="{% url 'announcements' %}">Announcements</a></li>
-                <li class="list-group-item list-group-item-light">Calendars</li>
-                <li class="list-group-item list-group-item-light">etc</li>
               </ul>
             </p>
           </div>

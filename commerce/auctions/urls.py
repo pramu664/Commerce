@@ -11,9 +11,11 @@ urlpatterns = [
     path("bid_options", views.bid_options, name="bid_options"),
     path("announcements", views.announcements, name="announcements"),
 
-    path("profile", views.watchlist_view, name="watchlist"),
+    path("watchlist", views.watchlist_view, name="watchlist"),
     path("add_to_watchlist", views.add_to_watchlist, name="add_to_watchlist"),
     path("remove_from_watchlist", views.remove_from_watchlist, name="remove_from_watchlist"),
+
+    path("profile", views.profile, name="profile"),
 
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),

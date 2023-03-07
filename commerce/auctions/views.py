@@ -8,12 +8,16 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
 
-from .models import User, Listing, Watchlist, Bid
+from .models import User, Listing, Watchlist, Bid, Profile
 from .forms import ListingForm, BiddingForm
 
 def index(request):
     listings = {"listings": list(reversed(Listing.objects.filter(is_closed=False)))}
     return render(request, "auctions/index.html", listings)
+
+def profile(request):
+    user_profile = Profile.objects.filter(user=request.user).first()
+    return render(request, "auctions/profile.html", {"profile": user_profile})
 
 
 @login_required
