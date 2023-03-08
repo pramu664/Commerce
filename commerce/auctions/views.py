@@ -47,6 +47,21 @@ def bid(request):
     form = BiddingForm()
     return render(request, "auctions/bid.html", {"form": form})
 
+
+def show_category(request, name):
+    categories = Listing.LISTING_CATEGORIES 
+    name = name.capitalize()
+    matched_listings = []
+    for category in categories:
+        if category[1] == name:
+            matched_listings = Listing.objects.filter(listing_categories=category[0])
+    if matched_listings:
+        return render(request, "auctions/category.html", {"listings": matched_listings}) 
+    else:
+        return render(request, "auctions/category.html", {"listings": matched_listings}) 
+
+
+
 @login_required
 def bid_options(request):
     option = request.POST["option"]
@@ -66,6 +81,7 @@ def bid_options(request):
         listing.is_closed = option
         listing.save()
         messages.success(request, f"{listing} now closed")
+        # notify_the_win(request)
         return HttpResponseRedirect(reverse("listing_detail", args=(listing_id,)))
     else:# Opening
         listing.is_closed = option
@@ -73,9 +89,21 @@ def bid_options(request):
         messages.success(request, f"{listing} now opened")
         return HttpResponseRedirect(reverse("listing_detail", args=(listing_id,)))
 
+
 def announcements(request):
     listings_win_by_user = []
     bids = Bid.objects.filter(bidder=request.user)
+    bids_info = {}
+    for bid in bids:
+        if not bid.bid_on in bids_info.keys():
+            bids_info[bid.bid_on.title] = []
+            bids_info[bid.bid_on.title].append(bid)
+        else:
+            bids_info[bid.bid_on.title].append(bid)
+    # TODO
+
+    return render(request, "auctions/announcements.html", {"bids": bids_info})
+
     closed_listings = Listing.objects.filter(is_closed=True)
     for bid in bids:
         if bid.bid_on in closed_listings:

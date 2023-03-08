@@ -2,20 +2,6 @@
 
 {% block body %}
     <h1>TODO: Announcements</h1>
-  {% for listing in listings %}
-        <article class="media content-section">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="#">{{ listing.author }}</a>
-              <small class="text-muted">{{ listing.date|date:"F d, Y" }}</small>
-              <small class="ml-3">Price: <b>${{ listing.price }}</b></small>
-              <!-- {{ person.get_gender_display }} -->
-              <small class="ml-3">Category: <b>{{ listing.get_listing_categories_display }}</b></small>
-            </div>
-            <h2><a class="article-title" href="{% url 'listing_detail' pk=listing.pk %}">{{ listing.title }}</a></h2>
-            <p class="article-content">{{ listing.content }}</p>
-			<img width=320 height=320 src="{{ listing.image.url }}" />
-          </div>
-        </article>
-    {% endfor %}
+    {{ bids }}
+
 {% endblock body %}
