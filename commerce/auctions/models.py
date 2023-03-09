@@ -29,6 +29,15 @@ class Listing (models.Model):
     def __str__ (self):
         return f"{self.title}"
 
+class Comment (models.Model):
+    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    comment_on = models.ForeignKey(Listing, on_delete=models.CASCADE, default=None)
+
+    def __str__ (self):
+        return f"Comment made by {self.author} to {self.comment_on}"
+
+
 class Bid(models.Model):
     bidder = models.ForeignKey(User, on_delete=models.CASCADE)
     bid_on = models.ForeignKey(Listing, on_delete=models.CASCADE)

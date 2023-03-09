@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 
 from .models import User, Listing, Watchlist, Bid, Profile
-from .forms import ListingForm, BiddingForm
+from .forms import ListingForm, BiddingForm, CommentForm
 
 def index(request):
     listings = {"listings": list(reversed(Listing.objects.filter(is_closed=False)))}
@@ -124,7 +124,7 @@ def add_to_watchlist(request):
         if not request.user.id == listing.author.id:
             if not Watchlist.objects.filter(listing=listing):
                 watchlist = Watchlist.objects.create(customer=request.user, listing=listing)
-                messages.success(request, f"{watchlist} added successfully.")
+                messages.success(request, f"{watchlist} added to watchlist.")
                 return HttpResponseRedirect(reverse("listing_detail", args=(listing_id,)))
             else:
                 messages.warning(request ,f"Already {listing} in your wishlist")
@@ -168,7 +168,8 @@ def listing_detail(request, **kwargs):
         messages.warning(request, f"does not exist!")
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "auctions/listing.html", {"listing": listing})
+        commentForm = CommentForm()
+        return render(request, "auctions/listing.html", {"listing": listing, "commentForm": commentForm})
 
 
 

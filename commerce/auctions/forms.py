@@ -17,3 +17,6 @@ class ListingForm(ModelForm):
 
 class BiddingForm(forms.Form):
     bid = forms.IntegerField()
+
+class CommentForm(forms.Form):
+    message = forms.CharField(widget=forms.Textarea, label="Your comment")

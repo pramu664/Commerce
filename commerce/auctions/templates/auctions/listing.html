@@ -1,4 +1,5 @@
 {% extends "auctions/layout.html" %}
+{% load crispy_forms_tags %}
 
 {% block body %}
 <article class="media content-section">
@@ -17,6 +18,11 @@
         {% csrf_token %}
         <button class="btn btn-info small mt-3">Add to watchlist</button>
         <input type="hidden" name="id" value="{{ listing.id }}" />
+    </form>
+
+    <form>
+        <p>Comment section</p>
+        {{ commentform|crispy}}
     </form>
 
     {% if not listing.author.id == user.id %}
