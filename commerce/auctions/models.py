@@ -30,7 +30,7 @@ class Listing (models.Model):
         return f"{self.title}"
 
 class Comment (models.Model):
-    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     comment_on = models.ForeignKey(Listing, on_delete=models.CASCADE, default=None)
 

@@ -8,7 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
 
-from .models import User, Listing, Watchlist, Bid, Profile
+from .models import User, Listing, Watchlist, Bid, Profile, Comment
 from .forms import ListingForm, BiddingForm, CommentForm
 
 def index(request):
@@ -168,9 +168,15 @@ def listing_detail(request, **kwargs):
         messages.warning(request, f"does not exist!")
         return HttpResponseRedirect(reverse("index"))
     else:
-        commentForm = CommentForm()
-        return render(request, "auctions/listing.html", {"listing": listing, "commentForm": commentForm})
+        # Get all the comments made to this listing
+        current_listing_comments = Comment.objects.filter(comment_on=listing)
+        print(current_listing_comments)
+        
+        return render(request, "auctions/listing.html", {"listing": listing, "comments":current_listing_comments})
 
+def comment(request, **kwargs):
+    pk = kwargs.get('pk')
+    ...
 
 
 def login_view(request):

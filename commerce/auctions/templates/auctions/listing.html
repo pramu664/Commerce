@@ -20,11 +20,6 @@
         <input type="hidden" name="id" value="{{ listing.id }}" />
     </form>
 
-    <form>
-        <p>Comment section</p>
-        {{ commentform|crispy}}
-    </form>
-
     {% if not listing.author.id == user.id %}
         <form action="bid" method="POST">
             {% csrf_token %}
@@ -55,6 +50,15 @@
         </form>
     </div>
     {% endif %}
+
+
+	<h3>Comments</h3>
+	<hr />
+	{% for comment in comments %}
+	<p><b>{{ comment.author }}</b></p>
+		<p>{{ comment.content }}</p>
+		<hr />
+	{% endfor %}
 
 </article>
 {% endblock body %}
