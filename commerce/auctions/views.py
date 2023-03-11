@@ -44,9 +44,6 @@ def bid(request):
             return HttpResponseRedirect(reverse("listing_detail", args=(listing_id,)))
 
 
-    form = BiddingForm()
-    return render(request, "auctions/bid.html", {"form": form})
-
 
 def show_category(request, name):
     categories = Listing.LISTING_CATEGORIES 
@@ -162,6 +159,15 @@ def create_listing(request):
 @login_required
 def listing_detail(request, **kwargs):
     pk = kwargs.get('pk')
+    if request.method == "POST": # comments
+        author = request.user
+        listing = Listing.objects.get(pk=pk) 
+        print(type(listing))
+        content = request.POST["message"]
+        Comment.objects.create(content=content, author=author, comment_on=listing)
+        return HttpResponseRedirect(reverse("listing_detail", args=(listing.id,)))
+
+
     try:
         listing = Listing.objects.get(pk=pk)
     except ObjectDoesNotExist:
@@ -171,8 +177,10 @@ def listing_detail(request, **kwargs):
         # Get all the comments made to this listing
         current_listing_comments = Comment.objects.filter(comment_on=listing)
         print(current_listing_comments)
+
+        commentForm = CommentForm()
         
-        return render(request, "auctions/listing.html", {"listing": listing, "comments":current_listing_comments})
+        return render(request, "auctions/listing.html", {"listing": listing, "comments":current_listing_comments, "commentForm": CommentForm})
 
 def comment(request, **kwargs):
     pk = kwargs.get('pk')

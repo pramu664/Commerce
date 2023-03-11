@@ -51,6 +51,12 @@
     </div>
     {% endif %}
 
+	<h3>Add comment</h3>
+	<form method="POST" action="{% url 'listing_detail' listing.id %}">
+		{% csrf_token %}
+		{{ commentForm|crispy }}
+		<button class="btn btn-info small mt-3">Comment</button>
+	</form>
 
 	<h3>Comments</h3>
 	<hr />
