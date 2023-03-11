@@ -52,12 +52,13 @@
         </div>
         <div class="col-md-4">
           <div class="content-section">
-            <!-- <h3>Our Sidebar</h3> -->
-            <!-- <p class='text-muted'>You can put any information here you'd like. -->
               <ul class="list-group">
                 <li class="list-group-item list-group-item-light"><a href="{% url 'index' %}">Latest Listings</a></li>
-                <li class="list-group-item list-group-item-light"><a href="{% url 'announcements' %}">Announcements</a></li>
+
+				<br />
+				<h2> Categories </h2>
                 <li class="list-group-item list-group-item-light"><a href="{% url 'category' name='shoes' %}">Shoes</a></li>
+
                 <li class="list-group-item list-group-item-light"><a href="{% url 'category' name='clothing' %}">Clothing</a></li>
                 <li class="list-group-item list-group-item-light"><a href="{% url 'category' name='accessories' %}">Accessories</a></li>
                 <li class="list-group-item list-group-item-light"><a href="{% url 'category' name='other' %}">Other</a></li>

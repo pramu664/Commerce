@@ -19,4 +19,5 @@ class BiddingForm(forms.Form):
     bid = forms.IntegerField()
 
 class CommentForm(forms.Form):
-    message = forms.CharField(widget=forms.Textarea, label="Your comment")
+    message = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 2, 'cols': 20}))
+
