@@ -159,7 +159,12 @@ def listing_detail(request, **kwargs):
         listing = Listing.objects.get(pk=pk) 
         print(type(listing))
         content = request.POST["message"]
-        Comment.objects.create(content=content, author=author, comment_on=listing)
+        try:
+            Comment.objects.create(content=content, author=author, comment_on=listing)
+        except IntegrityError:
+            messages.warning(request, f"Only allowed to post one comment.")
+            return HttpResponseRedirect(reverse("listing_detail", args=(listing.id,)))
+
         return HttpResponseRedirect(reverse("listing_detail", args=(listing.id,)))
 
     try:

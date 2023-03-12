@@ -33,6 +33,18 @@ class Comment (models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     comment_on = models.ForeignKey(Listing, on_delete=models.CASCADE, default=None)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['author'], name='unique_user_comment')
+        ]
+        ordering = ['-created_at']
+
+    def clean(self):
+        # Check if the user already has a listing
+        if self.pk is None and Comment.objects.filter(author=self.author).exists():
+            raise ValidationError('A user can only have one comment.')
 
     def __str__ (self):
         return f"Comment made by {self.author} to {self.comment_on}"

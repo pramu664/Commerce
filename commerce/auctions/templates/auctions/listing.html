@@ -50,24 +50,29 @@
         </form>
     </div>
     {% endif %}
-
-
-
 </article>
 
-	<!-- <h2>Comments</h2> -->
-	<hr />
-	<form method="POST" action="{% url 'listing_detail' listing.id %}">
-		{% csrf_token %}
-		{{ commentForm|crispy }}
-		<button class="btn btn-info small mt-3">Add</button>
-	</form>
-
-	<hr />
-	{% for comment in comments %}
-	<p><b>{{ comment.author }}</b></p>
-		<p>{{ comment.content }}</p>
-		<hr />
-	{% endfor %}
+<h2>Comments</h2>
+<hr />
+<form method="POST" action="{% url 'listing_detail' listing.id %}">
+    {% csrf_token %}
+    {{ commentForm|crispy }}
+    <button class="btn btn-info small mt-3">Add</button>
+</form>
+<hr />
+{% for comment in comments %}
+    <article class="media content-section">
+        <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="#">{{ comment.author }}</a>
+            <small class="text-muted">{{ comment.created_at|date:"F d, Y" }}</small>
+            <!-- <small class="ml-3">Price: <b>${{ listing.price }}</b></small> -->
+            <!-- {{ person.get_gender_display }} -->
+            <!-- <small class="ml-3">Category: <b>{{ listing.get_listing_categories_display }}</b></small> -->
+        </div>
+        <p class="article-content">{{ comment.content }}</p>
+        </div>
+    </article>
+{% endfor %}
 
 {% endblock body %}
