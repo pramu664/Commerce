@@ -9,7 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
 from .models import User, Listing, Watchlist, Bid, Profile, Comment
-from .forms import ListingForm, BiddingForm, CommentForm, ProfileUpdateForm
+from .forms import ListingForm, BiddingForm, CommentForm
 
 
 def index(request):
@@ -22,7 +22,7 @@ def profile(request):
     # if request.method == "POST":
     #     image_form = ProfileUpdateForm(request.POST, request.FILES)
     #     if image_form.is_valid():
-    #         image_form.save() # Error: Integrity error Not null constraint failed 
+    #         image_form.save() # Error: Integrity error Not null constraint failed , not fixed
     #         messages.success(request, "Image is updated.")
     #         return HttpResponseRedirect(reverse("profile"))
 
@@ -33,9 +33,9 @@ def profile(request):
         if listing.author == request.user:
             my_listings.append(listing)
     
-    image_form = ProfileUpdateForm(instance=request.user.profile) # Error: User has no profile
+    # image_form = ProfileUpdateForm(instance=request.user.profile) 
 
-    return render(request, "auctions/profile.html", {"profile": user_profile, "listings": my_listings, "image_form": image_form })
+    return render(request, "auctions/profile.html", {"profile": user_profile, "listings": my_listings, })
 
 
 @login_required

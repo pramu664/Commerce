@@ -21,8 +21,16 @@ class BiddingForm(forms.Form):
 class CommentForm(forms.Form):
     message = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 1, 'cols': 20}))
 
-class ProfileUpdateForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ["image"]
+
+# -> Updating the Profile forms
+
+# class UserUpdateForm(forms.ModelForm):
+#     class Meta:
+#         model = User
+#         fields = ['username', 'email']
+
+# class ProfileUpdateForm(forms.ModelForm):
+#     class Meta:
+#         model = Profile
+#         fields = ["image"]
 
