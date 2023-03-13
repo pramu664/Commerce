@@ -8,9 +8,9 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
-
 from .models import User, Listing, Watchlist, Bid, Profile, Comment
-from .forms import ListingForm, BiddingForm, CommentForm
+from .forms import ListingForm, BiddingForm, CommentForm, ProfileUpdateForm
+
 
 def index(request):
     listings = {"listings": list(reversed(Listing.objects.filter(is_closed=False)))}
@@ -18,14 +18,24 @@ def index(request):
 
 
 def profile(request):
+
+    # if request.method == "POST":
+    #     image_form = ProfileUpdateForm(request.POST, request.FILES)
+    #     if image_form.is_valid():
+    #         image_form.save() # Error: Integrity error Not null constraint failed 
+    #         messages.success(request, "Image is updated.")
+    #         return HttpResponseRedirect(reverse("profile"))
+
     user_profile = Profile.objects.filter(user=request.user).first()
     all_listings = Listing.objects.all()
     my_listings = []
     for listing in all_listings:
         if listing.author == request.user:
             my_listings.append(listing)
+    
+    image_form = ProfileUpdateForm(instance=request.user.profile) # Error: User has no profile
 
-    return render(request, "auctions/profile.html", {"profile": user_profile, "listings": my_listings})
+    return render(request, "auctions/profile.html", {"profile": user_profile, "listings": my_listings, "image_form": image_form })
 
 
 @login_required

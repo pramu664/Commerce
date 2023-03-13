@@ -1,4 +1,5 @@
 {% extends 'auctions/layout.html' %}
+{% load crispy_forms_tags %}
 
 {% block body %}
 
@@ -11,6 +12,13 @@
         </div>
     </div>
 </div>
+
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ image_form|crispy }}
+  <button class="btn btn-info" type="submit">Add</button>
+</form>
+
  {% for listing in listings %}
         <article class="media content-section">
           <div class="media-body">

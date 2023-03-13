@@ -3,7 +3,7 @@ from django import forms
 from django.forms import fields, ModelForm, HiddenInput
 from django.utils import timezone
 
-from .models import Listing, User
+from .models import Listing, User, Profile
 
 class ListingForm(ModelForm):
 
@@ -20,4 +20,9 @@ class BiddingForm(forms.Form):
 
 class CommentForm(forms.Form):
     message = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 1, 'cols': 20}))
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ["image"]
 
