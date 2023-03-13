@@ -14,7 +14,7 @@ class Listing (models.Model):
     date = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(default="default.jpg", upload_to="listing_pics")
-    price = models.IntegerField(default=1, validators=[MaxValueValidator(1000), MinValueValidator(0)])
+    price = models.FloatField(default=1, validators=[MaxValueValidator(1000), MinValueValidator(0)])
     is_closed = models.BooleanField(default=False)
 
     # Category Field

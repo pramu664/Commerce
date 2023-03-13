@@ -8,7 +8,7 @@
             <div class="article-metadata">
               <a class="mr-2" href="#">{{ listing.author }}</a>
               <small class="text-muted">{{ listing.date|date:"F d, Y" }}</small>
-              <small class="ml-3">Price: <b>${{ listing.price }}</b></small>
+              <small class="ml-3">Price: <b>${{ listing.price|floatformat:2 }}</b></small>
               <!-- {{ person.get_gender_display }} -->
               <small class="ml-3">Category: <b>{{ listing.get_listing_categories_display }}</b></small>
             </div>

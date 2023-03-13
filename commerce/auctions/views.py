@@ -19,7 +19,13 @@ def index(request):
 
 def profile(request):
     user_profile = Profile.objects.filter(user=request.user).first()
-    return render(request, "auctions/profile.html", {"profile": user_profile})
+    all_listings = Listing.objects.all()
+    my_listings = []
+    for listing in all_listings:
+        if listing.author == request.user:
+            my_listings.append(listing)
+
+    return render(request, "auctions/profile.html", {"profile": user_profile, "listings": my_listings})
 
 
 @login_required
@@ -157,12 +163,11 @@ def listing_detail(request, **kwargs):
     if request.method == "POST": # comments
         author = request.user
         listing = Listing.objects.get(pk=pk) 
-        print(type(listing))
         content = request.POST["message"]
         try:
             Comment.objects.create(content=content, author=author, comment_on=listing)
         except IntegrityError:
-            messages.warning(request, f"Only allowed to post one comment.")
+            messages.warning(request, f"You already posted comment to this listing.")
             return HttpResponseRedirect(reverse("listing_detail", args=(listing.id,)))
 
         return HttpResponseRedirect(reverse("listing_detail", args=(listing.id,)))
@@ -182,9 +187,9 @@ def listing_detail(request, **kwargs):
         return render(request, "auctions/listing.html", {"listing": listing, "comments":current_listing_comments, "commentForm": CommentForm})
 
 
-def comment(request, **kwargs):
-    pk = kwargs.get('pk')
-    ...
+# def comment(request, **kwargs):
+#     pk = kwargs.get('pk')
+#     ...
 
 
 def login_view(request):
