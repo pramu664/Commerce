@@ -174,13 +174,13 @@ def listing_detail(request, **kwargs):
         author = request.user
         listing = Listing.objects.get(pk=pk) 
         content = request.POST["message"]
-        try:
-            Comment.objects.create(content=content, author=author, comment_on=listing)
-        except IntegrityError:
+
+        comments = Comment.objects.filter(author=request.user, comment_on=listing)
+        if comments:
             messages.warning(request, f"You already posted comment to this listing.")
             return HttpResponseRedirect(reverse("listing_detail", args=(listing.id,)))
-
-        return HttpResponseRedirect(reverse("listing_detail", args=(listing.id,)))
+        else:
+            Comment.objects.create(content=content, author=author, comment_on=listing)
 
     try:
         listing = Listing.objects.get(pk=pk)
@@ -188,18 +188,9 @@ def listing_detail(request, **kwargs):
         messages.warning(request, f"does not exist!")
         return HttpResponseRedirect(reverse("index"))
     else:
-        # Get all the comments made to this listing
         current_listing_comments = Comment.objects.filter(comment_on=listing)
-        print(current_listing_comments)
-
         commentForm = CommentForm()
-        
-        return render(request, "auctions/listing.html", {"listing": listing, "comments":current_listing_comments, "commentForm": CommentForm})
-
-
-# def comment(request, **kwargs):
-#     pk = kwargs.get('pk')
-#     ...
+        return render(request, "auctions/listing.html", {"listing": listing, "comments":current_listing_comments, "commentForm": CommentForm, })
 
 
 def login_view(request):
